@@ -13,21 +13,15 @@ function Contact() {
         </p>
 
         <form
-          name="contact"
-          method="POST"
-          data-netlify="true"
-          netlify-honeypot="bot-field"
-          className="grid gap-6 bg-slate-800/60 border border-slate-700 rounded-2xl p-6 md:p-8"
-        >
-          {/* Netlify needs this hidden input */}
-          <input type="hidden" name="form-name" value="contact" />
-          {/* Honeypot field (hidden from humans) */}
-          <p className="hidden">
-            <label>
-              Don’t fill this out if you’re human:
-              <input name="bot-field" />
-            </label>
-          </p>
+  name="contact"
+  method="POST"
+  data-netlify="true"
+  netlify-honeypot="bot-field"
+  className="grid gap-6 bg-slate-800/60 border border-slate-700 rounded-2xl p-6 md:p-8"
+>
+  <input type="hidden" name="form-name" value="contact" />
+  {/* honeypot etc... */}
+
 
           <div className="grid md:grid-cols-2 gap-6">
             <div className="flex flex-col gap-2">
