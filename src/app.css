@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global base styles */
+@layer base {
+  body {
+    @apply bg-neutral-50 text-neutral-900 antialiased;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+      "Helvetica Neue", Arial, sans-serif;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-serif text-neutral-900;
+  }
+
+  a {
+    @apply transition-colors;
+  }
+}
+
+/* Reusable layout helpers */
+@layer components {
+  .page-section {
+    @apply max-w-6xl mx-auto px-4 py-16 md:py-24;
+  }
+
+  .card {
+    @apply bg-white rounded-2xl border border-neutral-200 shadow-sm;
+  }
+
+  .pill {
+    @apply inline-flex items-center gap-2 rounded-full border border-neutral-200
+      px-3 py-1 text-xs uppercase tracking-[0.16em] text-neutral-500;
+  }
+}
