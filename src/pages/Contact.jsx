@@ -1,36 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
 export default function Contact() {
-  const [status, setStatus] = useState("idle"); // idle | sending | success | error
-
-  // Netlify-friendly submit handler
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus("sending");
-
-    const form = e.target;
-    const formData = new FormData(form);
-
-    try {
-      const response = await fetch("/", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams(formData).toString(),
-      });
-
-      if (response.ok) {
-        setStatus("success");
-        form.reset();
-      } else {
-        console.error("Netlify form error:", response.status);
-        setStatus("error");
-      }
-    } catch (err) {
-      console.error("Netlify form error:", err);
-      setStatus("error");
-    }
-  };
-
   return (
     <main className="min-h-screen bg-[#f7f4ef] text-neutral-900">
       <section className="max-w-3xl mx-auto px-6 py-20">
@@ -39,19 +9,21 @@ export default function Contact() {
         </h1>
         <p className="text-lg text-neutral-700 mb-10 max-w-xl">
           Tell me a bit about your situation—timeline, goals, and what you own
-          or want to buy. I&rsquo;ll respond personally.
+          or want to buy. I’ll respond personally.
         </p>
 
+        {/* Plain Netlify form — no JS magic */}
         <form
           name="contact"
           method="POST"
           data-netlify="true"
           netlify-honeypot="bot-field"
-          onSubmit={handleSubmit}
+          action="/"  // Netlify will still record the submission
           className="bg-white/80 border border-neutral-200 rounded-2xl p-6 md:p-8 shadow-sm space-y-6"
         >
-          {/* required for Netlify */}
+          {/* Required hidden inputs for Netlify */}
           <input type="hidden" name="form-name" value="contact" />
+
           <p className="hidden">
             <label>
               Don’t fill this out: <input name="bot-field" />
@@ -106,26 +78,12 @@ export default function Contact() {
             />
           </div>
 
-          <div className="flex items-center gap-4">
-            <button
-              type="submit"
-              disabled={status === "sending"}
-              className="inline-flex items-center justify-center rounded-full px-6 py-2.5 text-sm font-medium bg-neutral-900 text-white hover:bg-black transition disabled:opacity-60 disabled:cursor-not-allowed"
-            >
-              {status === "sending" ? "Sending..." : "Send message"}
-            </button>
-
-            {status === "success" && (
-              <span className="text-sm text-emerald-700">
-                Got it. I&rsquo;ll reach out shortly.
-              </span>
-            )}
-            {status === "error" && (
-              <span className="text-sm text-red-600">
-                Something went wrong. Try again or email directly.
-              </span>
-            )}
-          </div>
+          <button
+            type="submit"
+            className="inline-flex items-center justify-center rounded-full px-6 py-2.5 text-sm font-medium bg-neutral-900 text-white hover:bg-black transition"
+          >
+            Send message
+          </button>
         </form>
       </section>
     </main>
