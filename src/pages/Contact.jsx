@@ -11,7 +11,6 @@ function Contact() {
             back to you personally.
           </p>
 
-          {/* PURE HTML FORM → POSTS TO FORMSUBMIT */}
           <form
             action="https://formsubmit.co/noah@rbhaley.com"
             method="POST"
@@ -55,7 +54,7 @@ function Contact() {
                 <input
                   type="tel"
                   name="phone"
-                  placeholder="(555) 555-5555"
+                  placeholder="(707) 305-6499"
                 />
               </label>
             </div>
