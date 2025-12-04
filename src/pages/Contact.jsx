@@ -1,91 +1,109 @@
 import React from "react";
 
-export default function Contact() {
+function Contact() {
   return (
-    <main className="min-h-screen bg-[#f7f4ef] text-neutral-900">
-      <section className="max-w-3xl mx-auto px-6 py-20">
-        <h1 className="text-4xl md:text-5xl font-semibold tracking-tight mb-4">
-          Work with Noah
-        </h1>
-        <p className="text-lg text-neutral-700 mb-10 max-w-xl">
-          Tell me a bit about your situation—timeline, goals, and what you own
-          or want to buy. I’ll respond personally.
-        </p>
-
-        {/* Plain Netlify form — no JS magic */}
-        <form
-          name="contact"
-          method="POST"
-          data-netlify="true"
-          netlify-honeypot="bot-field"
-          action="/"  // Netlify will still record the submission
-          className="bg-white/80 border border-neutral-200 rounded-2xl p-6 md:p-8 shadow-sm space-y-6"
-        >
-          {/* Required hidden inputs for Netlify */}
-          <input type="hidden" name="form-name" value="contact" />
-
-          <p className="hidden">
-            <label>
-              Don’t fill this out: <input name="bot-field" />
-            </label>
+    <main className="page">
+      <section className="hero hero-centered">
+        <div className="container narrow">
+          <h1>Work with Noah</h1>
+          <p className="lead">
+            Tell me a bit about your situation, timing, and budget. I&apos;ll get
+            back to you personally.
           </p>
 
-          <div className="grid md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-neutral-800 mb-1">
-                Name
-              </label>
-              <input
-                className="w-full border border-neutral-300 rounded-xl px-3 py-2 text-base bg-white focus:outline-none focus:ring-2 focus:ring-neutral-900/80 focus:border-neutral-900"
-                type="text"
-                name="name"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-neutral-800 mb-1">
-                Email
-              </label>
-              <input
-                className="w-full border border-neutral-300 rounded-xl px-3 py-2 text-base bg-white focus:outline-none focus:ring-2 focus:ring-neutral-900/80 focus:border-neutral-900"
-                type="email"
-                name="email"
-                required
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-neutral-800 mb-1">
-              Phone (optional)
-            </label>
-            <input
-              className="w-full border border-neutral-300 rounded-xl px-3 py-2 text-base bg-white focus:outline-none focus:ring-2 focus:ring-neutral-900/80 focus:border-neutral-900"
-              type="tel"
-              name="phone"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-neutral-800 mb-1">
-              How can I help?
-            </label>
-            <textarea
-              className="w-full border border-neutral-300 rounded-xl px-3 py-2 text-base bg-white focus:outline-none focus:ring-2 focus:ring-neutral-900/80 focus:border-neutral-900 min-h-[140px]"
-              name="message"
-              required
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="inline-flex items-center justify-center rounded-full px-6 py-2.5 text-sm font-medium bg-neutral-900 text-white hover:bg-black transition"
+          {/* PURE HTML FORM → POSTS TO FORMSUBMIT */}
+          <form
+            action="https://formsubmit.co/noah@rbhaley.com"
+            method="POST"
           >
-            Send message
-          </button>
-        </form>
+            {/* FormSubmit options */}
+            <input type="hidden" name="_captcha" value="false" />
+            <input
+              type="hidden"
+              name="_subject"
+              value="New lead from LivingSanDiegoRealty.com"
+            />
+            <input type="hidden" name="_template" value="table" />
+
+            <div className="form-row">
+              <label>
+                Full name
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  placeholder="Jane Doe"
+                />
+              </label>
+            </div>
+
+            <div className="form-row">
+              <label>
+                Email
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  placeholder="you@example.com"
+                />
+              </label>
+            </div>
+
+            <div className="form-row">
+              <label>
+                Phone
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="(555) 555-5555"
+                />
+              </label>
+            </div>
+
+            <div className="form-row">
+              <label>
+                What are you looking to do?
+                <select name="goal">
+                  <option value="sell">Sell a property</option>
+                  <option value="buy">Buy a property</option>
+                  <option value="invest">Invest / multi-unit</option>
+                  <option value="trust-estate">Trust / estate sale</option>
+                  <option value="other">Something else</option>
+                </select>
+              </label>
+            </div>
+
+            <div className="form-row">
+              <label>
+                Neighborhoods or areas you&apos;re focused on
+                <input
+                  type="text"
+                  name="areas"
+                  placeholder="North Park, Linda Vista, Oceanside…"
+                />
+              </label>
+            </div>
+
+            <div className="form-row">
+              <label>
+                Message
+                <textarea
+                  name="message"
+                  rows={5}
+                  required
+                  placeholder="Give me a quick snapshot of your situation, timeline, and price range."
+                />
+              </label>
+            </div>
+
+            <button type="submit" className="primary-btn">
+              Send message
+            </button>
+          </form>
+        </div>
       </section>
     </main>
   );
 }
+
+export default Contact;
