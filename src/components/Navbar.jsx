@@ -1,37 +1,23 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-export default function Navbar() {
+function Navbar() {
   return (
-    <header className="nav">
-      <div className="nav-inner">
-        <div className="nav-logo">Noah Real Estate</div>
-        <nav className="nav-links">
-          <NavLink
-            to="/"
-            end
-            className={({ isActive }) =>
-              "nav-link" + (isActive ? " active" : "")
-            }
-          >
+    <header className="site-header">
+      <div className="container nav-row">
+        <div className="brand">
+          <span className="brand-top">Noah Real Estate</span>
+          <span className="brand-sub">Living San Diego Realty</span>
+        </div>
+
+        <nav className="main-nav">
+          <NavLink to="/" end className="nav-link">
             Home
           </NavLink>
-
-          <NavLink
-            to="/about"
-            className={({ isActive }) =>
-              "nav-link" + (isActive ? " active" : "")
-            }
-          >
+          <NavLink to="/about" className="nav-link">
             About
           </NavLink>
-
-          <NavLink
-            to="/contact"
-            className={({ isActive }) =>
-              "nav-link" + (isActive ? " active" : "")
-            }
-          >
+          <NavLink to="/contact" className="nav-link">
             Contact
           </NavLink>
         </nav>
@@ -39,3 +25,5 @@ export default function Navbar() {
     </header>
   );
 }
+
+export default Navbar;
