@@ -1009,8 +1009,14 @@ function Diagnostics() {
 export default function RealEstateSite() {
   const hash = useHashRoute();
   useSEO();
-  const [leadOpen, setLeadOpen] = useState(false);
   const dev = useDevMode();
+
+  const scrollToContact = () => {
+    const el = document.getElementById("contact");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
 
   useEffect(() => {
     const id = hash.replace("#", "");
@@ -1022,19 +1028,18 @@ export default function RealEstateSite() {
     <div className="min-h-screen">
       <Nav />
       <main>
-        <Hero onOpenLead={() => setLeadOpen(true)} />
+        <Hero onOpenLead={scrollToContact} />
         <ValueProps />
         <Listings />
         <Process />
         <Blog />
         <ServiceAreas />
-        <Contact onOpenLead={() => setLeadOpen(true)} />
+        <Contact />
         {dev && <Diagnostics />}
       </main>
-      <Footer onOpenLead={() => setLeadOpen(true)} />
-      <LeadCapture open={leadOpen} onClose={() => setLeadOpen(false)} />
+      <Footer onOpenLead={scrollToContact} />
       <button
-        onClick={() => setLeadOpen(true)}
+        onClick={scrollToContact}
         className="fixed bottom-6 right-6 px-5 py-3 rounded-2xl border border-black bg-white shadow-sm hover:bg-black hover:text-white text-sm"
       >
         Work with Noah
