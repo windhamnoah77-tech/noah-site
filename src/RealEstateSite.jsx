@@ -737,7 +737,7 @@ function Contact() {
   return (
     <section id="contact" className="page-section">
       <div className="card p-6 md:p-8 grid md:grid-cols-2 gap-8 items-start">
-        {/* Left side: stays basically the same */}
+        {/* Left side: info stays basically the same */}
         <div>
           <span className="pill">Start the conversation</span>
           <h2 className="mt-4 text-3xl">Let’s map out your move.</h2>
@@ -763,7 +763,7 @@ function Contact() {
           </div>
         </div>
 
-        {/* Right side: Netlify contact form */}
+        {/* Right side: actual Netlify form */}
         <div className="rounded-2xl bg-neutral-50 p-6">
           <div className="text-xs uppercase tracking-[0.2em] text-neutral-500">
             Schedule an intro call
@@ -853,7 +853,6 @@ function Contact() {
     </section>
   );
 }
-
 
 function NewsletterForm() {
   const [email, setEmail] = useState("");
