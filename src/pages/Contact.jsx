@@ -1,26 +1,45 @@
-import React from "react";
-
-export default function Contact() {
+function ContactForm() {
   return (
-    <main className="page narrow">
-      <h1>Contact</h1>
-      <p>
-        Ready to talk through a property, trust or estate situation, or an investment
-        strategy in San Diego?
+    <form
+      name="contact"
+      method="POST"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+    >
+      <input type="hidden" name="form-name" value="contact" />
+
+      {/* Honeypot */}
+      <p hidden>
+        <label>
+          Don’t fill this out: <input name="bot-field" />
+        </label>
       </p>
 
-      <div className="contact-block">
-        <p><strong>Best ways to reach me:</strong></p>
-        <ul>
-          <li>Phone / text: (xxx) xxx-xxxx</li>
-          <li>Email: you@yourdomain.com</li>
-        </ul>
-      </div>
+      <input
+        type="text"
+        name="name"
+        placeholder="Name"
+        required
+      />
 
-      <p>
-        You can also use the strategy call form on the home page – just let me know a
-        little about the property or what you&apos;re trying to accomplish.
-      </p>
-    </main>
+      <input
+        type="email"
+        name="email"
+        placeholder="Email"
+        required
+      />
+
+      <textarea
+        name="message"
+        placeholder="How can I help?"
+        rows={4}
+        required
+      />
+
+      {/* This is your “Contact Me” button */}
+      <button type="submit">
+        Send
+      </button>
+    </form>
   );
 }
