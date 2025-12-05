@@ -760,12 +760,40 @@ function LeadCapture({ open, onClose }) {
   );
 }
 
-
 function Contact() {
+  const [status, setStatus] = useState("idle");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("loading");
+
+    const formEl = e.target;
+    const formData = new FormData(formEl);
+
+    // Make sure Netlify knows which form this is
+    formData.set("form-name", "contact");
+
+    try {
+      await fetch("/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams(formData).toString(),
+      });
+
+      setStatus("success");
+      formEl.reset();
+    } catch (err) {
+      console.error(err);
+      setStatus("error");
+    }
+  };
+
   return (
     <section id="contact" className="page-section">
       <div className="card p-6 md:p-8 grid md:grid-cols-2 gap-8 items-start">
-        {/* Left side: info stays basically the same */}
+        {/* Left side – copy & contact info */}
         <div>
           <span className="pill">Start the conversation</span>
           <h2 className="mt-4 text-3xl">Let’s map out your move.</h2>
@@ -791,7 +819,7 @@ function Contact() {
           </div>
         </div>
 
-        {/* Right side: actual Netlify form */}
+        {/* Right side – Netlify form with AJAX submit */}
         <div className="rounded-2xl bg-neutral-50 p-6">
           <div className="text-xs uppercase tracking-[0.2em] text-neutral-500">
             Schedule an intro call
@@ -804,11 +832,11 @@ function Contact() {
           <form
             name="contact"
             method="POST"
-            data-netlify="true"
             netlify-honeypot="bot-field"
+            onSubmit={handleSubmit}
             className="mt-4 space-y-3 text-sm"
           >
-            {/* Netlify identifier */}
+            {/* Netlify identifier – JS will also set this */}
             <input type="hidden" name="form-name" value="contact" />
 
             {/* Honeypot */}
@@ -850,15 +878,25 @@ function Contact() {
 
             <button
               type="submit"
+              disabled={status === "loading"}
               className="mt-1 px-5 py-3 rounded-2xl border border-black bg-black text-white hover:bg-white hover:text-black transition"
             >
-              Schedule an intro call
+              {status === "loading"
+                ? "Sending…"
+                : "Schedule an intro call"}
             </button>
           </form>
 
-          <div className="mt-4 text-xs text-neutral-500">
-            Expect a direct reply from me, not an automated drip.
-          </div>
+          {status === "success" && (
+            <div className="mt-3 text-xs text-green-700">
+              Got it. I’ll reach out shortly with next steps.
+            </div>
+          )}
+          {status === "error" && (
+            <div className="mt-3 text-xs text-red-700">
+              Something went wrong. Please try again or email me directly.
+            </div>
+          )}
 
           <div className="mt-4 flex flex-wrap gap-3">
             <button
@@ -879,34 +917,6 @@ function Contact() {
         </div>
       </div>
     </section>
-  );
-}
-
-function NewsletterForm() {
-  const [email, setEmail] = useState("");
-  const [ok, setOk] = useState(false);
-  return ok ? (
-    <div className="text-xs text-green-700 mt-2">
-      You’re in. I send occasionally, not weekly spam.
-    </div>
-  ) : (
-    <form
-      className="flex gap-2 mt-2"
-      onSubmit={(e) => {
-        e.preventDefault();
-        setOk(true);
-      }}
-    >
-      <input
-        required
-        type="email"
-        placeholder="you@email.com"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        className="border rounded-xl px-3 py-2 flex-1 text-sm"
-      />
-      <button className="px-4 py-2 border rounded-xl text-sm">Join</button>
-    </form>
   );
 }
 
