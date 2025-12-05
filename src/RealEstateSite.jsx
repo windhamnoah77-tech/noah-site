@@ -733,10 +733,11 @@ function LeadCapture({ open, onClose }) {
   );
 }
 
-function Contact({ onOpenLead }) {
+function Contact() {
   return (
     <section id="contact" className="page-section">
-      <div className="card p-6 md:p-8 grid md:grid-cols-2 gap-8 items-center">
+      <div className="card p-6 md:p-8 grid md:grid-cols-2 gap-8 items-start">
+        {/* Left side: stays basically the same */}
         <div>
           <span className="pill">Start the conversation</span>
           <h2 className="mt-4 text-3xl">Let’s map out your move.</h2>
@@ -760,45 +761,99 @@ function Contact({ onOpenLead }) {
             </div>
             <div>Based in San Diego · Work across CA by arrangement.</div>
           </div>
-          <div className="mt-6 flex flex-wrap gap-3">
+        </div>
+
+        {/* Right side: Netlify contact form */}
+        <div className="rounded-2xl bg-neutral-50 p-6">
+          <div className="text-xs uppercase tracking-[0.2em] text-neutral-500">
+            Schedule an intro call
+          </div>
+          <p className="mt-2 text-sm text-neutral-700">
+            Share a few details and I&apos;ll follow up with times for a short
+            discovery call.
+          </p>
+
+          <form
+            name="contact"
+            method="POST"
+            data-netlify="true"
+            netlify-honeypot="bot-field"
+            className="mt-4 space-y-3 text-sm"
+          >
+            {/* Netlify identifier */}
+            <input type="hidden" name="form-name" value="contact" />
+
+            {/* Honeypot */}
+            <p className="hidden">
+              <label>
+                Don’t fill this out: <input name="bot-field" />
+              </label>
+            </p>
+
+            <div className="grid md:grid-cols-2 gap-3">
+              <input
+                required
+                name="name"
+                placeholder="Full name"
+                className="border rounded-xl px-3 py-2 w-full"
+              />
+              <input
+                required
+                name="email"
+                type="email"
+                placeholder="Email"
+                className="border rounded-xl px-3 py-2 w-full"
+              />
+            </div>
+
+            <input
+              name="phone"
+              placeholder="Phone (optional)"
+              className="border rounded-xl px-3 py-2 w-full"
+            />
+
+            <textarea
+              name="message"
+              rows={4}
+              placeholder="Tell me about the property, timing, and any constraints."
+              className="border rounded-xl px-3 py-2 w-full"
+              required
+            />
+
             <button
-              onClick={onOpenLead}
-              className="px-5 py-3 rounded-2xl border border-black bg-black text-white hover:bg-white hover:text-black transition"
+              type="submit"
+              className="mt-1 px-5 py-3 rounded-2xl border border-black bg-black text-white hover:bg-white hover:text-black transition"
             >
-              Schedule a intro call
+              Schedule an intro call
             </button>
+          </form>
+
+          <div className="mt-4 text-xs text-neutral-500">
+            Expect a direct reply from me, not an automated drip.
+          </div>
+
+          <div className="mt-4 flex flex-wrap gap-3">
             <button
+              type="button"
               onClick={generateSitemap}
-              className="px-5 py-3 rounded-2xl border text-sm"
+              className="px-5 py-3 rounded-2xl border text-xs"
             >
               Download sitemap.xml
             </button>
             <button
+              type="button"
               onClick={generateRobots}
-              className="px-5 py-3 rounded-2xl border text-sm"
+              className="px-5 py-3 rounded-2xl border text-xs"
             >
               Download robots.txt
             </button>
           </div>
         </div>
-
-        <div className="rounded-2xl bg-neutral-50 p-6">
-          <div className="text-xs uppercase tracking-[0.2em] text-neutral-500">
-            What to expect
-          </div>
-          <ol className="mt-3 text-sm text-neutral-700 space-y-2 list-decimal list-inside">
-            <li>10–20 minute discovery call or Zoom.</li>
-            <li>Basic numbers: value range, timing, and key decisions.</li>
-            <li>
-              If it makes sense, we move into a full listing or acquisition
-              plan.
-            </li>
-          </ol>
-        </div>
       </div>
     </section>
   );
 }
+
 
 function NewsletterForm() {
   const [email, setEmail] = useState("");
