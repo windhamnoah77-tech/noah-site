@@ -764,13 +764,13 @@ function Contact() {
   const [status, setStatus] = useState("idle");
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // 🔒 stop the browser from doing a normal POST+redirect
     setStatus("loading");
 
     const formEl = e.target;
     const formData = new FormData(formEl);
 
-    // Make sure Netlify knows which form this is
+    // make sure Netlify knows which form this is
     formData.set("form-name", "contact");
 
     try {
@@ -819,7 +819,7 @@ function Contact() {
           </div>
         </div>
 
-        {/* Right side – Netlify form with AJAX submit */}
+        {/* Right side – Netlify form submitted via fetch */}
         <div className="rounded-2xl bg-neutral-50 p-6">
           <div className="text-xs uppercase tracking-[0.2em] text-neutral-500">
             Schedule an intro call
@@ -831,12 +831,12 @@ function Contact() {
 
           <form
             name="contact"
-            method="POST"
+            data-netlify="true"
             netlify-honeypot="bot-field"
             onSubmit={handleSubmit}
             className="mt-4 space-y-3 text-sm"
           >
-            {/* Netlify identifier – JS will also set this */}
+            {/* Netlify identifier */}
             <input type="hidden" name="form-name" value="contact" />
 
             {/* Honeypot */}
@@ -881,9 +881,7 @@ function Contact() {
               disabled={status === "loading"}
               className="mt-1 px-5 py-3 rounded-2xl border border-black bg-black text-white hover:bg-white hover:text-black transition"
             >
-              {status === "loading"
-                ? "Sending…"
-                : "Schedule an intro call"}
+              {status === "loading" ? "Sending…" : "Schedule an intro call"}
             </button>
           </form>
 
@@ -917,6 +915,34 @@ function Contact() {
         </div>
       </div>
     </section>
+  );
+}
+
+function NewsletterForm() {
+  const [email, setEmail] = useState("");
+  const [ok, setOk] = useState(false);
+  return ok ? (
+    <div className="text-xs text-green-700 mt-2">
+      You’re in. I send occasionally, not weekly spam.
+    </div>
+  ) : (
+    <form
+      className="flex gap-2 mt-2"
+      onSubmit={(e) => {
+        e.preventDefault();
+        setOk(true);
+      }}
+    >
+      <input
+        required
+        type="email"
+        placeholder="you@email.com"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        className="border rounded-xl px-3 py-2 flex-1 text-sm"
+      />
+      <button className="px-4 py-2 border rounded-xl text-sm">Join</button>
+    </form>
   );
 }
 
