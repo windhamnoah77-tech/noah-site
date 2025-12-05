@@ -612,14 +612,36 @@ function LeadCapture({ open, onClose }) {
 
   const submit = async (e) => {
     e.preventDefault();
+    setStatus("loading");
+
     try {
-      setStatus("loading");
-      await new Promise((r) => setTimeout(r, 700));
+      // Build payload for Netlify "contact" form
+      const data = {
+        "form-name": "contact",          // must match the form name Netlify knows
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        service: form.service,
+        message: form.message,
+        source: "LeadCapture modal",     // lets you see it came from the popup
+      };
+
+      await fetch("/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams(data).toString(),
+      });
+
+      // Optional: keep your local backup too
       const leads = JSON.parse(localStorage.getItem("noah_leads") || "[]");
-      leads.push({ ...form, ts: new Date().toISOString() });
+      leads.push({ ...data, ts: new Date().toISOString() });
       localStorage.setItem("noah_leads", JSON.stringify(leads));
+
       setStatus("success");
-    } catch {
+    } catch (err) {
+      console.error(err);
       setStatus("error");
     }
   };
@@ -668,6 +690,7 @@ function LeadCapture({ open, onClose }) {
             <div className="grid md:grid-cols-2 gap-3">
               <input
                 required
+                name="name"
                 placeholder="Full name"
                 className="border rounded-xl px-3 py-2"
                 value={form.name}
@@ -675,6 +698,7 @@ function LeadCapture({ open, onClose }) {
               />
               <input
                 required
+                name="email"
                 type="email"
                 placeholder="Email"
                 className="border rounded-xl px-3 py-2"
@@ -683,12 +707,14 @@ function LeadCapture({ open, onClose }) {
               />
             </div>
             <input
+              name="phone"
               placeholder="Phone (optional)"
               className="border rounded-xl px-3 py-2"
               value={form.phone}
               onChange={(e) => setForm({ ...form, phone: e.target.value })}
             />
             <select
+              name="service"
               className="border rounded-xl px-3 py-2"
               value={form.service}
               onChange={(e) => setForm({ ...form, service: e.target.value })}
@@ -699,6 +725,7 @@ function LeadCapture({ open, onClose }) {
               <option>Development consult</option>
             </select>
             <textarea
+              name="message"
               placeholder="Tell me about the property, timing, and any constraints."
               className="border rounded-xl px-3 py-2 h-28"
               value={form.message}
@@ -732,6 +759,7 @@ function LeadCapture({ open, onClose }) {
     </div>
   );
 }
+
 
 function Contact() {
   return (
