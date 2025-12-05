@@ -612,36 +612,14 @@ function LeadCapture({ open, onClose }) {
 
   const submit = async (e) => {
     e.preventDefault();
-    setStatus("loading");
-
     try {
-      // Build payload for Netlify "contact" form
-      const data = {
-        "form-name": "contact",          // must match the form name Netlify knows
-        name: form.name,
-        email: form.email,
-        phone: form.phone,
-        service: form.service,
-        message: form.message,
-        source: "LeadCapture modal",     // lets you see it came from the popup
-      };
-
-      await fetch("/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams(data).toString(),
-      });
-
-      // Optional: keep your local backup too
+      setStatus("loading");
+      await new Promise((r) => setTimeout(r, 700));
       const leads = JSON.parse(localStorage.getItem("noah_leads") || "[]");
-      leads.push({ ...data, ts: new Date().toISOString() });
+      leads.push({ ...form, ts: new Date().toISOString() });
       localStorage.setItem("noah_leads", JSON.stringify(leads));
-
       setStatus("success");
-    } catch (err) {
-      console.error(err);
+    } catch {
       setStatus("error");
     }
   };
@@ -690,7 +668,6 @@ function LeadCapture({ open, onClose }) {
             <div className="grid md:grid-cols-2 gap-3">
               <input
                 required
-                name="name"
                 placeholder="Full name"
                 className="border rounded-xl px-3 py-2"
                 value={form.name}
@@ -698,7 +675,6 @@ function LeadCapture({ open, onClose }) {
               />
               <input
                 required
-                name="email"
                 type="email"
                 placeholder="Email"
                 className="border rounded-xl px-3 py-2"
@@ -707,14 +683,12 @@ function LeadCapture({ open, onClose }) {
               />
             </div>
             <input
-              name="phone"
               placeholder="Phone (optional)"
               className="border rounded-xl px-3 py-2"
               value={form.phone}
               onChange={(e) => setForm({ ...form, phone: e.target.value })}
             />
             <select
-              name="service"
               className="border rounded-xl px-3 py-2"
               value={form.service}
               onChange={(e) => setForm({ ...form, service: e.target.value })}
@@ -725,7 +699,6 @@ function LeadCapture({ open, onClose }) {
               <option>Development consult</option>
             </select>
             <textarea
-              name="message"
               placeholder="Tell me about the property, timing, and any constraints."
               className="border rounded-xl px-3 py-2 h-28"
               value={form.message}
@@ -761,39 +734,10 @@ function LeadCapture({ open, onClose }) {
 }
 
 function Contact() {
-  const [status, setStatus] = useState("idle");
-
-  const handleSubmit = async (e) => {
-    e.preventDefault(); // 🔒 stop the browser from doing a normal POST+redirect
-    setStatus("loading");
-
-    const formEl = e.target;
-    const formData = new FormData(formEl);
-
-    // make sure Netlify knows which form this is
-    formData.set("form-name", "contact");
-
-    try {
-      await fetch("/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams(formData).toString(),
-      });
-
-      setStatus("success");
-      formEl.reset();
-    } catch (err) {
-      console.error(err);
-      setStatus("error");
-    }
-  };
-
   return (
     <section id="contact" className="page-section">
       <div className="card p-6 md:p-8 grid md:grid-cols-2 gap-8 items-start">
-        {/* Left side – copy & contact info */}
+        {/* Left side: info stays basically the same */}
         <div>
           <span className="pill">Start the conversation</span>
           <h2 className="mt-4 text-3xl">Let’s map out your move.</h2>
@@ -819,7 +763,7 @@ function Contact() {
           </div>
         </div>
 
-        {/* Right side – Netlify form submitted via fetch */}
+        {/* Right side: actual Netlify form */}
         <div className="rounded-2xl bg-neutral-50 p-6">
           <div className="text-xs uppercase tracking-[0.2em] text-neutral-500">
             Schedule an intro call
@@ -831,9 +775,9 @@ function Contact() {
 
           <form
             name="contact"
+            method="POST"
             data-netlify="true"
             netlify-honeypot="bot-field"
-            onSubmit={handleSubmit}
             className="mt-4 space-y-3 text-sm"
           >
             {/* Netlify identifier */}
@@ -878,23 +822,15 @@ function Contact() {
 
             <button
               type="submit"
-              disabled={status === "loading"}
               className="mt-1 px-5 py-3 rounded-2xl border border-black bg-black text-white hover:bg-white hover:text-black transition"
             >
-              {status === "loading" ? "Sending…" : "Schedule an intro call"}
+              Schedule an intro call
             </button>
           </form>
 
-          {status === "success" && (
-            <div className="mt-3 text-xs text-green-700">
-              Got it. I’ll reach out shortly with next steps.
-            </div>
-          )}
-          {status === "error" && (
-            <div className="mt-3 text-xs text-red-700">
-              Something went wrong. Please try again or email me directly.
-            </div>
-          )}
+          <div className="mt-4 text-xs text-neutral-500">
+            Expect a direct reply from me, not an automated drip.
+          </div>
 
           <div className="mt-4 flex flex-wrap gap-3">
             <button
