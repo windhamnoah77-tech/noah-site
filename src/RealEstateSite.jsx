@@ -224,7 +224,7 @@ function Hero({ onOpenLead }) {
     <section id="home" className="page-section">
       <div className="grid md:grid-cols-2 gap-10 items-center">
         <div>
-          <span className="pill">Curated listings · Trust & Estate · Investors · Buyers</span>
+          <span className="pill">Trust & Estate ·  Curated listings · Investors · Buyers</span>
           <h1 className="mt-5 text-4xl md:text-5xl leading-tight">
             Trust & estate real estate representation for sellers and serious investors.
           </h1>
