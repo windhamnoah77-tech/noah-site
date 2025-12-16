@@ -229,10 +229,7 @@ function Hero({ onOpenLead }) {
             Trust & estate real estate representation for sellers and serious investors.
           </h1>
           <p className="mt-4 text-neutral-600 max-w-prose">
-            I help owners, families, and investors move assets cleanly—whether
-            that’s a trust or estate sale in San Diego, Bay Area, Los Angeles or an off-market opportunity
-            . Clear numbers, disciplined negotiation, and marketing
-            that belongs in a magazine.
+            I represent trustees, executors, and families in trust and estate property sales, and investors in both on- and off-market transactions across San Diego, the Bay Area, and Los Angeles. Clear numbers, disciplined negotiation, and marketing built for high-stakes decisions, not retail noise.
           </p>
 
           <div className="mt-7 flex flex-wrap gap-3">
