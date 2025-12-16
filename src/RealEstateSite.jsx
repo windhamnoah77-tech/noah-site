@@ -226,7 +226,7 @@ function Hero({ onOpenLead }) {
         <div>
           <span className="pill">Curated listings · Trust & Estate · Investors · Buyers</span>
           <h1 className="mt-5 text-4xl md:text-5xl leading-tight">
-            Timeless representation for sellers and serious buyers.
+            Trust & estate real estate representation for sellers and serious investors.
           </h1>
           <p className="mt-4 text-neutral-600 max-w-prose">
             I help owners, families, and investors move assets cleanly—whether
@@ -924,7 +924,7 @@ function Footer({ onOpenLead }) {
         <div>
           <div className="font-medium">Brief updates</div>
           <p className="mt-2 text-xs text-neutral-600">
-            Occasional notes on San Diego & CA property—no fluff, no mass drip
+            Occasional notes on San Diego & CA property, no mass drip
             campaign.
           </p>
           <NewsletterForm />
